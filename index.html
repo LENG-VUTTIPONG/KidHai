@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="KidHai">
+<meta name="theme-color" content="#F2F3EF">
+<title>KidHai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F2F3EF; --card:#FFFFFF; --ink:#16181B; --muted:#7D838C; --line:#E2E4DF;
+  --field:#F2F3EF; --tag:#FFD84D; --tag-ink:#16181B; --dim:#B4B8BE;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#121315; --card:#1C1E21; --ink:#F1F2F0; --muted:#8F959D; --line:#2C2F33;
+    --field:#26292D; --dim:#52575E;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#121315; --card:#1C1E21; --ink:#F1F2F0; --muted:#8F959D; --line:#2C2F33;
+  --field:#26292D; --dim:#52575E;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Anuphan", -apple-system, "Sukhumvit Set", "Thonburi", system-ui, sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+main{max-width:520px;margin:0 auto;padding:20px 16px 120px}
+header{display:flex;align-items:flex-end;justify-content:space-between;margin:8px 4px 18px}
+h1{font-size:2rem;font-weight:700;letter-spacing:-.02em;margin:0;line-height:1}
+.reset{
+  border:0;background:none;color:var(--muted);font:inherit;font-size:.95rem;
+  padding:8px 4px;cursor:pointer
+}
+.list{display:flex;flex-direction:column;gap:12px}
+.item{
+  background:var(--card);border-radius:20px;padding:14px 14px 0;
+  border:2px solid transparent;overflow:hidden;
+  transition:border-color .2s;
+}
+.item.best{border-color:var(--ink)}
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.name{font-weight:700;font-size:1.05rem;width:28px;height:28px;border-radius:50%;
+  display:grid;place-items:center;background:var(--field)}
+.actions{display:flex;align-items:center;gap:4px;margin:-6px -6px -6px 0}
+.act{border:0;background:none;color:var(--muted);font:inherit;font-size:.9rem;font-weight:600;
+  height:36px;padding:0 10px;cursor:pointer;border-radius:18px;display:flex;align-items:center;gap:6px}
+.act.cam{background:var(--ink);color:var(--card)}
+.act.cam svg{width:18px;height:18px}
+.act[disabled]{opacity:.5}
+.remove{font-size:1.4rem;width:36px;padding:0;justify-content:center}
+.hidden{display:none!important}
+.result.busy .per{color:var(--muted);font-weight:500;font-size:.95rem}
+.result.err .per{color:var(--ink);font-weight:500;font-size:.92rem}
+.result .read{font-size:.82rem;color:var(--muted);display:block;margin-top:2px;font-weight:400}
+.item.best .result .read{color:var(--tag-ink)}
+.cancel{border:0;background:none;color:var(--ink);font:inherit;font-weight:600;font-size:.9rem;cursor:pointer;padding:0}
+.row{display:grid;grid-template-columns:72px auto 1fr;gap:8px;align-items:end}
+.row2{margin-top:8px}
+label{display:block}
+label span{display:block;font-size:.78rem;color:var(--muted);margin:0 0 4px 4px}
+.x{color:var(--muted);font-size:1.1rem;padding-bottom:14px;text-align:center}
+.field{
+  display:flex;align-items:center;background:var(--field);border-radius:12px;
+  height:52px;padding:0 4px 0 12px;
+}
+.field:focus-within{outline:2px solid var(--ink);outline-offset:-2px}
+input{
+  -webkit-appearance:none;appearance:none;border:0;background:none;color:var(--ink);
+  font:inherit;font-size:1.35rem;font-weight:600;width:100%;min-width:0;height:100%;
+  outline:none;padding:0;font-variant-numeric:tabular-nums;
+}
+input::placeholder{color:var(--dim);font-weight:500}
+select{
+  -webkit-appearance:none;appearance:none;border:0;background:var(--card);color:var(--ink);
+  font:inherit;font-size:16px;font-weight:600;border-radius:8px;height:36px;
+  padding:0 10px;cursor:pointer;flex:none;
+}
+select:focus-visible{outline:2px solid var(--ink)}
+.suffix{color:var(--muted);font-weight:600;padding:0 10px 0 4px;flex:none}
+.result{
+  margin:14px -14px 0;padding:12px 14px;border-top:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:baseline;gap:8px;
+  min-height:48px;font-variant-numeric:tabular-nums;
+}
+.result .per{font-weight:600;font-size:1.05rem}
+.result .per small{font-weight:500;color:var(--muted);font-size:.85rem}
+.result .note{font-size:.9rem;color:var(--muted);text-align:right}
+.result.empty .per{color:var(--dim);font-weight:500;font-size:.95rem}
+.item.best .result{background:var(--tag);color:var(--tag-ink);border-top-color:var(--tag)}
+.item.best .result small,.item.best .result .note{color:var(--tag-ink)}
+.item.best .result .note{font-weight:700}
+.warn{margin:14px 4px 0;color:var(--muted);font-size:.9rem;display:none}
+.warn.show{display:block}
+.add{
+  margin-top:12px;width:100%;height:52px;border-radius:16px;border:1.5px dashed var(--dim);
+  background:none;color:var(--muted);font:inherit;font-size:1rem;font-weight:600;cursor:pointer
+}
+.add:disabled{display:none}
+button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>KidHai</h1>
+    <button class="reset" id="reset" type="button">ล้างทั้งหมด</button>
+  </header>
+  <div class="list" id="list"></div>
+  <p class="warn" id="warn">ใส่หน่วยต่างประเภทกันอยู่ (เช่น ml กับ g) เลยเทียบกันไม่ได้</p>
+  <button class="add" id="add" type="button">+ เพิ่มอีกตัวเลือก</button>
+  <input type="file" id="cam" accept="image/*" capture="environment" class="hidden">
+</main>
+
+<script src="app.js" defer></script>
+</body>
+</html>
